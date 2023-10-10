@@ -5,21 +5,21 @@ const morgan = require("morgan");
 const routes = require("./routes/index.js");
 const cargaDatosDB = require("./controllers/cargaDatosDB.js");
 
-require("./db.js");
+// require("./db.js");
 
 const server = express();
 
 server.name = "API";
 
 // midlewere de prueba
-server.use((req, res, next) => {
-  console.log("Pasa por el 1º midlewere");
+// server.use((req, res, next) => {
+//   console.log("Pasa por el 1º midlewere");
 
-  // Cargo datos de API a DB
-  cargaDatosDB();
+//   // Cargo datos de API a DB
+//   cargaDatosDB();
 
-  next();
-});
+//   next();
+// });
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 /* El primer middleware, bodyParser.urlencoded(), se utiliza para analizar
