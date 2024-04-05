@@ -21,13 +21,16 @@ module.exports = (sequelize) => {
           },
           duracion: {
             type: DataTypes.INTEGER,
-    
+
           },
           temporada: {
             type: DataTypes.STRING,
             value: ['Verano', 'Otoño', 'Invierno', 'Primavera'],
           },
-          
+          icono: {
+            type: DataTypes.STRING,
+          },
+
         },
     {
       timestamps: false,

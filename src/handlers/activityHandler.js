@@ -19,15 +19,16 @@ const createActivityHandler = async (req, res) => {
   //res.status(200).json("Llegaron las datos.")
 
   try {
-    const response = await createActivity(
-      nombre,
-      dificultad,
-      duracion,
-      temporada,
-      pais1,
-      pais2,
-      pais3
-    );
+    // const response = await createActivity(
+    //   nombre,
+    //   dificultad,
+    //   duracion,
+    //   temporada,
+    //   pais1,
+    //   pais2,
+    //   pais3
+    // );
+    // console.log(`Llego al activityHandler.`);
     res.status(200).json("Actividad Creada!");
   } catch (error) {
     res.status(400).json({ error: error.message });

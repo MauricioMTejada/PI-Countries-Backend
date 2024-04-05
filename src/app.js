@@ -3,23 +3,20 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
-const cargaDatosDB = require("./controllers/cargaDatosDB.js");
-
-// require("./db.js");
+const { dataLoader } = require("./utils/dataLoader/dataLoader");
+require("./db.js");
 
 const server = express();
 
 server.name = "API";
 
 // midlewere de prueba
-// server.use((req, res, next) => {
-//   console.log("Pasa por el 1º midlewere");
-
-//   // Cargo datos de API a DB
-//   cargaDatosDB();
-
-//   next();
-// });
+server.use((req, res, next) => {
+	// Cargo datos de API a DB
+	dataLoader();
+	// console.log("Pasa por el 1º midlewere");
+	next();
+});
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 /* El primer middleware, bodyParser.urlencoded(), se utiliza para analizar
@@ -40,15 +37,15 @@ server.use(morgan("dev"));
 solicitud HTTP en la consola del servidor para fines de depuración. En este caso,
 se utiliza la opción 'dev' para registrar los detalles en un formato legible. */
 server.use((req, res, next) => {
-  // res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  next();
+	// res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+	res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+	res.header("Access-Control-Allow-Credentials", "true");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept"
+	);
+	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+	next();
 });
 /*El último middleware se utiliza para configurar los encabezados de respuesta HTTP
 para permitir el acceso a recursos desde un origen diferente al servidor, es decir,
@@ -70,11 +67,11 @@ server.use("/", routes);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  const status = err.status || 500;
-  const message = err.message || err;
-  console.error(err);
-  res.status(status).send(message);
+	// eslint-disable-line no-unused-vars
+	const status = err.status || 500;
+	const message = err.message || err;
+	console.error(err);
+	res.status(status).send(message);
 });
 
 module.exports = server;
